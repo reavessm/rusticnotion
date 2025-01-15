@@ -259,6 +259,11 @@ pub enum PropertyConfiguration {
     Button {
         id: PropertyId,
     },
+    /// https://developers.notion.com/reference/page-property-values#unique-id
+    UniqueId {
+        id: PropertyId,
+        unique_id: UniqueId,
+    },
 }
 
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
@@ -441,6 +446,17 @@ pub enum PropertyValue {
     Button {
         id: PropertyId,
     },
+    /// https://developers.notion.com/reference/page-property-values#unique-id
+    UniqueId {
+        id: PropertyId,
+        unique_id: UniqueId,
+    },
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct UniqueId {
+    pub number: Option<i32>,
+    pub prefix: Option<String>,
 }
 
 /// <https://developers.notion.com/reference/page#rollup-property-value-element>

@@ -2,6 +2,8 @@ use crate::models::properties::{DateOrDateTime, RollupPropertyValue, RollupValue
 use crate::models::properties::{FormulaResultValue, PropertyValue};
 use chrono::NaiveDate;
 
+use super::UniqueId;
+
 #[test]
 fn verify_date_parsing() {
     let date = NaiveDate::from_ymd_opt(2021, 1, 2).unwrap();
@@ -83,4 +85,9 @@ fn parse_number_formula() {
 fn parse_phone_number_values() {
     let _property: Vec<PropertyValue> =
         serde_json::from_str(include_str!("tests/phone_number_property_value.json")).unwrap();
+}
+
+#[test]
+fn parse_unique_id_values() {
+    let _ids: Vec<UniqueId> = serde_json::from_str(include_str!("tests/unique_id.json")).unwrap();
 }

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "OEs%3A",
+    "name": "ID",
+    "type": "unique_id",
+    "unique_id": {
+      "prefix": null
+    }
+  },
+  {
+    "id": "OEs%3A",
+    "name": "ID",
+    "type": "unique_id",
+    "unique_id": {
+      "number": 1,
+      "prefix": "FOO"
+    }
+  }
+]

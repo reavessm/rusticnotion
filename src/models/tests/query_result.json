@@ -34,6 +34,14 @@
               "href": null
             }
           ]
+        },
+        "ID": {
+          "id": "OEs%3A",
+          "name": "ID",
+          "type": "unique_id",
+          "unique_id": {
+            "prefix": null
+          }
         }
       }
     }
