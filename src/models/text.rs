@@ -1,3 +1,4 @@
+use crate::ids::{DatabaseId, PageId};
 use crate::models::properties::DateValue;
 use crate::models::users::User;
 use crate::{Database, Page};
@@ -74,11 +75,11 @@ pub enum MentionObject {
     },
     // TODO: need to add tests
     Page {
-        page: Page,
+        page: PageMention,
     },
     // TODO: need to add tests
     Database {
-        database: Database,
+        database: DatabaseMention,
     },
     Date {
         date: DateValue,
@@ -89,6 +90,16 @@ pub enum MentionObject {
     // },
     #[serde(other)]
     Unknown,
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct PageMention {
+    pub id: PageId,
+}
+
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct DatabaseMention {
+    pub id: DatabaseId,
 }
 
 /// Rich text objects contain data for displaying formatted text, mentions, and equations.
