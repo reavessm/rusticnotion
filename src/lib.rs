@@ -148,6 +148,40 @@ impl NotionApi {
         Ok(result)
     }
 
+    async fn make_json_request_users(
+        &self,
+        request: RequestBuilder,
+    ) -> Result<ListResponse<User>, Error> {
+        let request = request.build()?;
+        let url = request.url();
+        tracing::trace!(
+            method = request.method().as_str(),
+            url = url.as_str(),
+            "Sending request"
+        );
+        let json = self
+            .client
+            .execute(request)
+            .instrument(tracing::trace_span!("Sending request"))
+            .await
+            .map_err(|source| Error::RequestFailed { source })?
+            .text()
+            .instrument(tracing::trace_span!("Reading response"))
+            .await
+            .map_err(|source| Error::ResponseIoError { source })?;
+
+        tracing::debug!("JSON Response: {}", json);
+        #[cfg(test)]
+        {
+            dbg!(serde_json::from_str::<serde_json::Value>(&json)
+                .map_err(|source| Error::JsonParseError { source })?);
+        }
+        let result = serde_json::from_str::<ListResponse<User>>(&json)
+            .map_err(|source| Error::JsonParseError { source })?;
+
+        Ok(result)
+    }
+
     async fn make_json_request_comments(
         &self,
         request: RequestBuilder,
@@ -343,5 +377,19 @@ impl NotionApi {
         tracing::info!("Notion Client User: {:#?}", result);
 
         Ok(result?)
+    }
+
+    pub async fn get_users(&self) -> Result<ListResponse<User>, Error> {
+        tracing::info!("Notion Client Get Users");
+        eprintln!("Notion Client Get Users");
+
+        let result = self
+            .make_json_request_users(self.client.get(&format!("https://api.notion.com/v1/users")))
+            .await?;
+
+        tracing::info!("Notion Client Users: {:#?}", result);
+        eprintln!("Notion Client Users: {:#?}", result);
+
+        Ok(result)
     }
 }
